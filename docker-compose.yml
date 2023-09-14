@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    command: bundle exec rackup --host 0.0.0.0 -p 80
+    ports:
+      - "80:80"
+    volumes:
+      - .:/Sinatra-Docker
+  redis:
+    image: redis
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq -r ./workers/google_worker.rb
+    volumes:
+      - .:/Sinatra-Docker
